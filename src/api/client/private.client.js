@@ -1,5 +1,6 @@
 import axios from "axios";
 import queryString from "query-string";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const baseURL = "https://nixflet-movie-api.vercel.app/api/v1/";
 
@@ -15,7 +16,7 @@ privateClient.interceptors.request.use(async (config) => {
     ...config,
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("actkn")}`,
+      Authorization: `Bearer ${AsyncStorage.getItem("actkn")}`,
     },
   };
 });

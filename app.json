@@ -2,7 +2,7 @@
   "expo": {
     "name": "nixflet-movie-app",
     "slug": "nixflet-movie-app",
-    "scheme": "ixflet-movie-app",
+    "scheme": "nixflet-movie-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

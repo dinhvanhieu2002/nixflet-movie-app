@@ -15,7 +15,6 @@ const Header = () => {
   return (
     <>
       <AppBar
-        transparent
         color="rgb(19,19,19)"
         style={{
           marginTop: insets.top,
@@ -34,12 +33,6 @@ const Header = () => {
             </View>
           </View>
         )}
-        trailing={(props) => (
-          <View>
-            <Text style={{ color: "white" }}>Hieudinh</Text>
-          </View>
-        )}
-        trailingContainerStyle={{}}
       />
       <StatusBar />
     </>
