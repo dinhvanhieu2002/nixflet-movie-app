@@ -1,47 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Entypo } from "@expo/vector-icons";
 import { AppBar } from "@react-native-material/core";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
-import Logo from "./Logo";
+import { Ionicons } from "@expo/vector-icons";
 
-const Header = ({ backgroundColor }) => {
-  const navigation = useNavigation();
+const HeaderStack = ({ props, navigation }) => {
   const insets = useSafeAreaInsets();
 
   return (
     <>
       <AppBar
-        elevation={0}
+        transparent
         color="rgb(19,19,19)"
         style={{
           marginTop: insets.top,
           marginBottom: insets.bottom,
-          backgroundColor: backgroundColor,
           ...headerStyles.container,
         }}
         contentContainerStyle={{ justifyContent: "space-between", flex: "1" }}
         leading={(props) => (
           <View style={headerStyles.flexRow}>
-            <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-              <Entypo name="menu" size={32} color="white" />
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Authenticated")}
+            >
+              <Ionicons name="chevron-back" size={24} color="black" />
             </TouchableOpacity>
-
-            <View style={headerStyles.logo}>
-              <Logo />
-            </View>
           </View>
         )}
       />
-      <StatusBar />
     </>
   );
 };
 
-export default Header;
+export default HeaderStack;
 
 const headerStyles = StyleSheet.create({
   container: {

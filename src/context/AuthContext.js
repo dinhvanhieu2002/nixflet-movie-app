@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import userApi from "../api/modules/user.api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import favoriteApi from "../api/modules/favorite.api";
 
 export const AuthContext = createContext();
 
@@ -62,13 +63,54 @@ export const AuthProvider = ({ children }) => {
         setUserInfo(userInfo);
       }
       setIsLoading(false);
+      return true;
     } catch (error) {
       console.log(`isLogged in error ${error}`);
+      return false;
     }
   };
 
+  const addFavorite = async (res) => {
+    const favorites = await listFavorites();
+    const newListFavorites = [res, ...favorites];
+
+    await AsyncStorage.setItem(
+      "listFavorites",
+      JSON.stringify(newListFavorites)
+    );
+  };
+
+  const removeFavorite = async (res) => {
+    const { mediaId } = res;
+    const favorites = await listFavorites();
+
+    const newListFavorites = favorites.filter(
+      (e) => e.mediaId.toString() !== mediaId.toString()
+    );
+
+    await AsyncStorage.setItem(
+      "listFavorites",
+      JSON.stringify(newListFavorites)
+    );
+  };
+
+  const listFavorites = async () => {
+    const favorites = await AsyncStorage.getItem("listFavorites");
+    const listFavorites = JSON.parse(favorites);
+    // console.log(listFavorites);
+    return listFavorites;
+  };
+
+  const setListFavorites = async () => {
+    const { response, error } = await favoriteApi.getList();
+
+    if (response)
+      await AsyncStorage.setItem("listFavorites", JSON.stringify(response));
+    if (error) console.log(error.message);
+  };
+
   useEffect(() => {
-    isLoggedIn();
+    if (isLoggedIn()) setListFavorites();
   }, []);
 
   return (
@@ -77,6 +119,9 @@ export const AuthProvider = ({ children }) => {
         login,
         signup,
         logout,
+        addFavorite,
+        removeFavorite,
+        listFavorites,
         userToken,
         userInfo,
         isLoading,

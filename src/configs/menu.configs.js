@@ -1,18 +1,27 @@
 const main = [
   {
     display: "Home",
+    initialParams: (handleScroll) => ({
+      handleScroll: handleScroll,
+    }),
     icon: "home-outline",
     typeIcon: "Ionicons",
   },
   {
     display: "Movies",
-    initialParams: "movie",
+    initialParams: (handleScroll) => ({
+      mediaType: "movie",
+      handleScroll: handleScroll,
+    }),
     icon: "movie-outline",
     typeIcon: "MaterialCommunityIcons",
   },
   {
     display: "TV Series",
-    initialParams: "tv",
+    initialParams: (handleScroll) => ({
+      mediaType: "tv",
+      handleScroll: handleScroll,
+    }),
     icon: "ios-tv-outline",
     typeIcon: "Ionicons",
   },

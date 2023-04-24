@@ -4,8 +4,12 @@ import { NativeBaseProvider } from "native-base";
 import { AuthProvider } from "./src/context/AuthContext";
 
 import AppNav from "./src/navigation/AppNav";
-import { Provider } from "react-redux";
-import store from "./src/redux/store";
+
+const config = {
+  dependencies: {
+    "linear-gradient": require("expo-linear-gradient").LinearGradient,
+  },
+};
 
 const App = () => {
   return <AppNav />;
@@ -14,7 +18,7 @@ const App = () => {
 export default () => {
   return (
     <AuthProvider>
-      <NativeBaseProvider>
+      <NativeBaseProvider config={config}>
         <App />
       </NativeBaseProvider>
     </AuthProvider>

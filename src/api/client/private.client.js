@@ -16,7 +16,7 @@ privateClient.interceptors.request.use(async (config) => {
     ...config,
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${AsyncStorage.getItem("actkn")}`,
+      Authorization: `Bearer ${await AsyncStorage.getItem("userToken")}`,
     },
   };
 });

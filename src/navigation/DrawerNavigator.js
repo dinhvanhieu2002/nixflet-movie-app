@@ -20,6 +20,13 @@ import menuConfigs from "../configs/menu.configs";
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
+  const [scrollOffset, setScrollOffset] = React.useState(0);
+  const handleScroll = (event) => {
+    setScrollOffset(event.nativeEvent.contentOffset.y);
+  };
+
+  const appbarBackgroundColor = scrollOffset > 50 ? "#131313" : "transparent";
+
   return (
     <Drawer.Navigator
       initialRouteName="Home"
@@ -38,7 +45,7 @@ const DrawerNavigator = () => {
           <Drawer.Screen
             name={item.display}
             key={item.display}
-            initialParams={{ mediaType: item.initialParams }}
+            initialParams={item.initialParams(handleScroll)}
             component={
               item.display === "Home"
                 ? HomeScreen
@@ -49,7 +56,9 @@ const DrawerNavigator = () => {
             options={{
               drawerLabelStyle: { color: "#fff" },
               headerShown: true,
-              header: () => <Header />,
+              header: (props) => (
+                <Header {...props} backgroundColor={appbarBackgroundColor} />
+              ),
               drawerIcon: ({ focused }) =>
                 item.typeIcon === "MaterialCommunityIcons" ? (
                   <MaterialCommunityIcons
