@@ -89,7 +89,6 @@ export default function MediaDetail({ route }) {
       setIsFavorite(true);
     }
   };
-
   const onRemoveFavorite = async () => {
     if (onRequest) return;
     setOnRequest(true);
@@ -113,8 +112,6 @@ export default function MediaDetail({ route }) {
       console.log("remove favorite success");
     }
   };
-
-  console.log(media);
 
   return media ? (
     <SafeAreaView>

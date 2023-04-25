@@ -39,7 +39,7 @@ const CircularRate = ({ progress }) => {
           fontWeight: 400,
         }}
       >
-        {(Math.floor(progress * 10) / 10).toString()}
+        {Math.floor(progress * 10) / 10}
       </Text>
     </View>
   );
