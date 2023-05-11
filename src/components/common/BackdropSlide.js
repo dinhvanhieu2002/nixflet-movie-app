@@ -18,6 +18,7 @@ const BackdropSlide = ({ backdrops }) => {
   const { height, width } = Dimensions.get("window");
   return (
     <Swiper
+      index={0}
       width={width}
       height={height * 0.25}
       style={styles.wrapper}

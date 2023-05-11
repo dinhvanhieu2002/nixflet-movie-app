@@ -38,6 +38,7 @@ const MediaSlide = ({ mediaType, mediaCategory }) => {
 
   return (
     <Swiper
+      index={0}
       width={width}
       height={height * 0.3}
       style={styles.wrapper}

@@ -14,8 +14,8 @@ export default function MediaList({ navigation, route }) {
   const [currCategory, setCurrCategory] = useState(0);
   const [currPage, setCurrPage] = useState(1);
 
-  const mediaCategories = useMemo(() => ["popular", "top_rated"]);
-  const category = ["popular", "top_rated"];
+  const mediaCategories = useMemo(() => ["popular", "top_rated"], []);
+  const category = ["popular", "top rated"];
 
   useEffect(() => {
     const getMedias = async () => {
@@ -72,17 +72,25 @@ export default function MediaList({ navigation, route }) {
                 ? "Movies"
                 : "TV Series"}
             </Heading>
-            <Stack direction="row" space={2}>
+            <Stack direction="row" space={2} style={{ paddingVertical: 10 }}>
               {category.map((cate, index) => (
                 <Button
                   key={index}
                   onPress={() => onCategoryChange(index)}
-                  bgColor={currCategory === index && "#ff0000"}
+                  bgColor={currCategory === index ? "#ff0000" : "transparent"}
                   color="white"
                   size="lg"
                   variant={currCategory === index ? "solid" : "unstyled"}
                 >
-                  {cate}
+                  <Text
+                    style={{
+                      color: "white",
+                      textTransform: "uppercase",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {cate}
+                  </Text>
                 </Button>
               ))}
             </Stack>
@@ -97,10 +105,11 @@ export default function MediaList({ navigation, route }) {
             textTransform="uppercase"
             style={{ marginTop: 8 }}
             variant="unstyled"
+            bgColor="#ff0000"
             color="#ff0000"
             onPress={() => onLoadMore()}
           >
-            load more
+            <Text style={{ color: "white" }}>LOAD MORE</Text>
           </Button>
         </View>
       </ScrollView>

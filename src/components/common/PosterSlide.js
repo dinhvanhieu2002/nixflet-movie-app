@@ -23,6 +23,7 @@ const PosterSlide = ({ posters }) => {
       style={styles.wrapper}
       showsPagination={true}
       showsButtons={true}
+      index={0}
     >
       {[...posters].splice(0, 10).map((poster, index) => (
         <View style={styles.slide} key={index}>

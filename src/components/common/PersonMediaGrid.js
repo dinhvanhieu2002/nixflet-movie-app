@@ -1,4 +1,4 @@
-import { View, SimpleGrid, Button } from "native-base";
+import { View, SimpleGrid, Button, Text, Center } from "native-base";
 import { useState, useEffect } from "react";
 import { Dimensions, StyleSheet } from "react-native";
 import MediaItem from "./MediaItem";
@@ -10,6 +10,7 @@ const PersonMediaGrid = ({ personId }) => {
   const [filteredMedias, setFilteredMedias] = useState([]);
   const [page, setPage] = useState(1);
   const skip = 8;
+  console.log(medias.length);
 
   useEffect(() => {
     const getMedias = async () => {
@@ -55,7 +56,13 @@ const PersonMediaGrid = ({ personId }) => {
         ))}
       </SimpleGrid>
       {filteredMedias.length < medias.length && (
-        <Button onClick={onLoadMore}>load more</Button>
+        <Center>
+          <Button bgColor="#ff0000" w={150} onPress={() => onLoadMore()}>
+            <Text style={{ textTransform: "uppercase", color: "white" }}>
+              load more
+            </Text>
+          </Button>
+        </Center>
       )}
     </>
   );
@@ -67,7 +74,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    padding: 10,
   },
   item: {
     width: "48%",

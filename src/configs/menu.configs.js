@@ -27,6 +27,9 @@ const main = [
   },
   {
     display: "Search",
+    initialParams: (handleScroll) => ({
+      handleScroll: handleScroll,
+    }),
     icon: "search-outline",
     typeIcon: "Ionicons",
   },
@@ -35,11 +38,17 @@ const main = [
 const user = [
   {
     display: "Favorites",
+    initialParams: (handleScroll) => ({
+      handleScroll: handleScroll,
+    }),
     icon: "heart-outline",
     typeIcon: "Ionicons",
   },
   {
     display: "Reviews",
+    initialParams: (handleScroll) => ({
+      handleScroll: handleScroll,
+    }),
     icon: "comment-outline",
     typeIcon: "MaterialCommunityIcons",
   },

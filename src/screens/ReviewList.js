@@ -22,7 +22,7 @@ import { AuthContext } from "../context/AuthContext";
 import dayjs from "dayjs";
 
 export default function ReviewList({ navigation, route }) {
-  // const { handleScroll } = route.params;
+  const { handleScroll } = route.params;
   const [reviews, setReviews] = useState([]);
 
   const [count, setCount] = useState(0);
@@ -164,7 +164,7 @@ export default function ReviewList({ navigation, route }) {
   return (
     <SafeAreaView style={{ backgroundColor: "black" }}>
       <ScrollView
-        // onScroll={handleScroll}
+        onScroll={handleScroll}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
       >
@@ -172,6 +172,7 @@ export default function ReviewList({ navigation, route }) {
           <Container header={`Your favorite (${count})`}>
             <Box safeArea flex={1}>
               <SwipeListView
+                scrollEnabled={false}
                 data={reviews}
                 renderItem={renderItem}
                 renderHiddenItem={renderHideItem}

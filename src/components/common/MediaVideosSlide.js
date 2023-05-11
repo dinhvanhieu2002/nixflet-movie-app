@@ -1,39 +1,43 @@
 import { Box, Text, View } from "native-base";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import tmdbConfigs from "../../api/configs/tmdb.configs";
 import Swiper from "react-native-swiper";
+import YoutubePlayer from "react-native-youtube-iframe";
 // import YouTube from "react-native-youtube";
 import { Dimensions, StyleSheet } from "react-native";
 const MediaVideo = ({ video }) => {
+  const [playing, setPlaying] = useState(false);
   const ytbRef = useRef();
+  const onStateChange = useCallback((state) => {
+    if (state === "ended") {
+      setPlaying(false);
+    }
+  }, []);
 
   return (
-    <View>
-      {/* <YouTube
-        videoId={video.key} // The YouTube video ID
-        play // control playback of video with true/false
-        fullscreen // control whether the video should play in fullscreen or inline
-        loop // control whether the video should loop when ended
-        onReady={(e) => this.setState({ isReady: true })}
-        onChangeState={(e) => this.setState({ status: e.state })}
-        onChangeQuality={(e) => this.setState({ quality: e.quality })}
-        onError={(e) => this.setState({ error: e.error })}
-        style={{ alignSelf: "stretch", height: "100%" }}
-      /> */}
+    <View style={{ paddingHorizontal: 10 }}>
+      <YoutubePlayer
+        videoId={video.key}
+        width="100%"
+        height={200}
+        play={playing}
+        onStateChange={onStateChange}
+      />
     </View>
   );
 };
 
 const MediaVideosSlide = ({ videos }) => {
   const { height, width } = Dimensions.get("window");
-
+  console.log(videos);
   return (
     <Swiper
+      index={0}
       width={width}
       height={height * 0.3}
       style={styles.wrapper}
-      showsPagination={true}
-      showsButtons={true}
+      showsPagination={false}
+      showsButtons={false}
     >
       {videos.map((video, index) => (
         <View key={index}>

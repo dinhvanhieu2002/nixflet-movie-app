@@ -100,34 +100,37 @@ const DrawerNavigator = () => {
           />
         )
       )}
-      {menuConfigs.user.map((item, index) => (
-        <Drawer.Screen
-          name={item.display}
-          key={item.display}
-          component={
-            item.display === "Favorites"
-              ? FavoriteListScreen
-              : item.display === "Reviews"
-              ? ReviewListScreen
-              : PasswordUpdateScreen
-          }
-          options={{
-            drawerLabelStyle: { color: "#fff" },
-            headerShown: true,
-            header: () => <Header />,
-            drawerIcon: ({ focused }) =>
-              item.typeIcon === "MaterialCommunityIcons" ? (
-                <MaterialCommunityIcons
-                  name={item.icon}
-                  size={24}
-                  color="#fff"
-                />
-              ) : item.typeIcon === "Ionicons" ? (
-                <Ionicons name={item.icon} size={24} color="#fff" />
-              ) : null,
-          }}
-        />
-      ))}
+      {menuConfigs.user.map((item, index) =>
+        item.initialParams ? (
+          <Drawer.Screen
+            name={item.display}
+            key={item.display}
+            initialParams={item.initialParams(handleScroll)}
+            component={
+              item.display === "Favorites"
+                ? FavoriteListScreen
+                : item.display === "Reviews"
+                ? ReviewListScreen
+                : PasswordUpdateScreen
+            }
+            options={{
+              drawerLabelStyle: { color: "#fff" },
+              headerShown: true,
+              header: () => <Header />,
+              drawerIcon: ({ focused }) =>
+                item.typeIcon === "MaterialCommunityIcons" ? (
+                  <MaterialCommunityIcons
+                    name={item.icon}
+                    size={24}
+                    color="#fff"
+                  />
+                ) : item.typeIcon === "Ionicons" ? (
+                  <Ionicons name={item.icon} size={24} color="#fff" />
+                ) : null,
+            }}
+          />
+        ) : null
+      )}
     </Drawer.Navigator>
   );
 };

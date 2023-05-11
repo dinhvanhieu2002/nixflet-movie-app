@@ -26,7 +26,6 @@ const Container = ({ header, children }) => {
 const styles = StyleSheet.create({
   container: {
     marginTop: 70,
-    marginHorizontal: 10,
   },
   containerHeading: {
     position: "relative",

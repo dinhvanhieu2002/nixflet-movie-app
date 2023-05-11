@@ -56,11 +56,13 @@ const CastSlide = ({ casts }) => {
 
   return (
     <Swiper
+      index={0}
       width={width}
       height={height * 0.3}
       style={styles.wrapper}
       showsPagination={false}
       showsButtons={false}
+      loop={false}
     >
       {castsSlide}
     </Swiper>
@@ -74,8 +76,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     height: "100%",
-    justifyContent: "flex-start",
-    alignItems: "center",
   },
   containerItem: {
     flex: 1,
@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   backgroundImage: {
-    display: "flex",
     flex: 1,
     width: "100%",
     height: "100%",

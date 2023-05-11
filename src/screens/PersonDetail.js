@@ -1,4 +1,4 @@
-import { ScrollView, SafeAreaView } from "react-native";
+import { ScrollView, SafeAreaView, Dimensions } from "react-native";
 import { View, Text, Heading, VStack, Image } from "native-base";
 import { useEffect, useState } from "react";
 import personApi from "../api/modules/person.api";
@@ -9,6 +9,7 @@ import PersonMediaGrid from "../components/common/PersonMediaGrid";
 
 export default function PersonDetail({ route }) {
   const { personId } = route.params;
+  const { height, width } = Dimensions.get("window");
 
   const [person, setPerson] = useState();
 
@@ -25,28 +26,32 @@ export default function PersonDetail({ route }) {
 
   return (
     <SafeAreaView>
-      <ScrollView style={{ backgroundColor: "red" }}>
+      <ScrollView style={{ backgroundColor: "black" }}>
         {person && (
-          <View style={{ padding: 10 }}>
+          <View style={{ padding: 10, marginTop: 50 }}>
             <VStack space={10}>
               <Image
                 alt=""
-                width="50%"
-                height="70%"
+                width={width / 2}
+                height={height * 0.3}
                 resizeMode="cover"
                 source={{ uri: tmdbConfigs.posterPath(person.profile_path) }}
               />
-              <Heading variant="h5" fontWeight="700">
-                {`${person.name} (${person.birthday.split("-")[0]}`}
-                {person.deathday && ` -${person.deathday.split("-")[0]}`}
+              <Heading color="white" variant="h5" fontWeight="700">
+                {`${person.name} (${person.birthday?.split("-")[0]}`}
+                {person.deathday && ` -${person.deathday?.split("-")[0]}`}
                 {")"}
               </Heading>
-              <Text numberOfLines={10}>{person.biography}</Text>
+              <Text color="white" numberOfLines={10}>
+                {person.biography}
+              </Text>
             </VStack>
 
-            <Container header="Medias">
-              <PersonMediaGrid personId={personId} />
-            </Container>
+            <View style={{ marginTop: 0 }}>
+              <Container header="Medias">
+                <PersonMediaGrid personId={personId} />
+              </Container>
+            </View>
           </View>
         )}
       </ScrollView>

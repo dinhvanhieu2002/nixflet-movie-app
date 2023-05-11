@@ -16,6 +16,8 @@ import {
   Icon,
 } from "native-base";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { WebView } from "react-native-webview";
+import { Video, ResizeMode } from "expo-av";
 import { Dimensions } from "react-native";
 import { Entypo, FontAwesome } from "@expo/vector-icons";
 import CircularRate from "../components/common/CircularRate";
@@ -32,6 +34,8 @@ import { AuthContext } from "../context/AuthContext";
 export default function MediaDetail({ route }) {
   const { mediaType, mediaId } = route.params;
   const { height, width } = Dimensions.get("window");
+  const video = useRef(null);
+  const [status, setStatus] = useState({});
   const [media, setMedia] = useState();
   const [isFavorite, setIsFavorite] = useState(false);
   const [onRequest, setOnRequest] = useState(false);
@@ -39,7 +43,6 @@ export default function MediaDetail({ route }) {
   const { addFavorite, removeFavorite, listFavorites } =
     useContext(AuthContext);
 
-  const videoRef = useRef(null);
   useEffect(() => {
     const getMedia = async () => {
       const { response, error } = await mediaApi.getDetail({
@@ -113,6 +116,17 @@ export default function MediaDetail({ route }) {
     }
   };
 
+  const handleWebViewNavigationStateChange = (newNavState) => {
+    const { url } = newNavState;
+
+    if (!url.includes(`https://2embed.org`)) {
+      const newURL = `https://2embed.org/embed/movie?tmdb=${mediaId}`;
+      const redirectTo = 'window.location = "' + newURL + '"';
+      webViewRef.current.injectJavaScript(redirectTo);
+    }
+  };
+  const webViewRef = useRef(null);
+
   return media ? (
     <SafeAreaView>
       <ScrollView style={{ height: 1000, backgroundColor: "black" }}>
@@ -185,16 +199,48 @@ export default function MediaDetail({ route }) {
                 Watch Now
               </Button>
             </Stack>
-
-            {/* cast slide */}
-            <Container header="Cast">
-              <CastSlide casts={media.credits.cast} />
-            </Container>
           </Stack>
         </View>
+        {/* cast slide */}
+        <Container header="Cast">
+          <CastSlide casts={media.credits.cast} />
+        </Container>
+
+        {mediaType === "movie" && (
+          <Container header="Movie">
+            <View w={width} h={height * 0.3}>
+              <WebView
+                onNavigationStateChange={handleWebViewNavigationStateChange}
+                ref={webViewRef}
+                source={{
+                  uri: `https://2embed.org/embed/movie?tmdb=${mediaId}`,
+                }}
+              />
+              {/* <Video
+                ref={video}
+                useNativeControls
+                resizeMode={ResizeMode.CONTAIN}
+                source={{
+                  uri: `https://2embed.org/embed/movie?tmdb=${mediaId}`,
+                }}
+                onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+              />
+              <View style={{ position: "absolute" }}>
+                <Button
+                  onPress={() =>
+                    status.isPlaying
+                      ? video.current.pauseAsync()
+                      : video.current.playAsync
+                  }
+                >
+                  {status.isPlaying ? "Pause" : "Play"}
+                </Button>
+              </View> */}
+            </View>
+          </Container>
+        )}
 
         {/* video youtube */}
-
         <Container header="Videos">
           <MediaVideosSlide videos={[...media.videos.results].splice(0, 5)} />
         </Container>
@@ -221,18 +267,20 @@ export default function MediaDetail({ route }) {
         />
 
         {/* media recommend */}
-        <Container header="You may also like">
-          {media.recommend.length > 0 && (
-            <RecommendSlide medias={media.recommend} mediaType={mediaType} />
-          )}
+        <View style={{ marginBottom: 300 }}>
+          <Container header="You may also like">
+            {media.recommend.length > 0 && (
+              <RecommendSlide medias={media.recommend} mediaType={mediaType} />
+            )}
 
-          {media.recommend.length === 0 && (
-            <MediaSlide
-              mediaType={mediaType}
-              mediaCategory={tmdbConfigs.mediaCategory.top_rated}
-            />
-          )}
-        </Container>
+            {media.recommend.length === 0 && (
+              <MediaSlide
+                mediaType={mediaType}
+                mediaCategory={tmdbConfigs.mediaCategory.top_rated}
+              />
+            )}
+          </Container>
+        </View>
       </ScrollView>
     </SafeAreaView>
   ) : null;

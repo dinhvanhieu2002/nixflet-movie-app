@@ -24,7 +24,7 @@ const HeaderStack = ({ props, navigation }) => {
             <TouchableOpacity
               onPress={() => navigation.navigate("Authenticated")}
             >
-              <Ionicons name="chevron-back" size={24} color="black" />
+              <Ionicons name="chevron-back" size={24} color="white" />
             </TouchableOpacity>
           </View>
         )}

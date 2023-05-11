@@ -21,7 +21,7 @@ import CircularRate from "../components/common/CircularRate";
 import { AuthContext } from "../context/AuthContext";
 
 export default function FavofiteList({ navigation, route }) {
-  // const { handleScroll } = route.params;
+  const { handleScroll } = route.params;
   const { removeFavorite } = useContext(AuthContext);
   const [medias, setMedias] = useState([]);
 
@@ -161,7 +161,7 @@ export default function FavofiteList({ navigation, route }) {
   return (
     <SafeAreaView style={{ backgroundColor: "black" }}>
       <ScrollView
-        // onScroll={handleScroll}
+        onScroll={handleScroll}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
       >
